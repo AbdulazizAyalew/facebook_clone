@@ -121,15 +121,18 @@ class FriendsPage extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 40,
-                backgroundColor: Colors.blue[700],
-                child: Text(
-                  request.name[0],
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                backgroundImage: NetworkImage(request.imageUrl),
+                onBackgroundImageError: (exception, stackTrace) {},
+                child: request.imageUrl.isEmpty
+                    ? Text(
+                        request.name[0],
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    : null,
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -212,15 +215,18 @@ class FriendsPage extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 40,
-                backgroundColor: Colors.green[700],
-                child: Text(
-                  friend.name[0],
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                backgroundImage: NetworkImage(friend.imageUrl),
+                onBackgroundImageError: (exception, stackTrace) {},
+                child: friend.imageUrl.isEmpty
+                    ? Text(
+                        friend.name[0],
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    : null,
               ),
               const SizedBox(width: 12),
               Expanded(

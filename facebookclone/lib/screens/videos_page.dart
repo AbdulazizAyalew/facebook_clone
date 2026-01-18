@@ -79,6 +79,24 @@ class VideosPage extends StatelessWidget {
       '423K views',
     ];
 
+    final List<String> thumbnails = [
+      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=450&fit=crop',
+      'https://images.unsplash.com/photo-1551782450-17144efb9c50?w=800&h=450&fit=crop',
+      'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&h=450&fit=crop',
+      'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800&h=450&fit=crop',
+      'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=450&fit=crop',
+      'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=450&fit=crop',
+    ];
+
+    final List<String> channelAvatars = [
+      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face',
+      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face',
+      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face',
+      'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=80&h=80&fit=crop&crop=face',
+      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face',
+      'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop&crop=face',
+    ];
+
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       color: Colors.white,
@@ -91,15 +109,46 @@ class VideosPage extends StatelessWidget {
               Container(
                 width: double.infinity,
                 height: 220,
-                color: Colors.grey[800],
-                child: const Center(
-                  child: Icon(
-                    Icons.play_circle_outline,
-                    size: 64,
-                    color: Colors.white,
+                child: Image.network(
+                  thumbnails[index],
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      color: Colors.grey[800],
+                      child: const Center(
+                        child: Icon(
+                          Icons.play_circle_outline,
+                          size: 64,
+                          color: Colors.white,
+                        ),
+                      ),
+                    );
+                  },
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Container(
+                      color: Colors.grey[300],
+                      child: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              // Play button overlay
+              Positioned.fill(
+                child: Container(
+                  color: Colors.black.withOpacity(0.3),
+                  child: const Center(
+                    child: Icon(
+                      Icons.play_circle_outline,
+                      size: 64,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
+              // Duration
               Positioned(
                 bottom: 8,
                 right: 8,
@@ -133,14 +182,17 @@ class VideosPage extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 20,
-                  backgroundColor: Colors.purple[700],
-                  child: Text(
-                    channels[index][0],
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  backgroundImage: NetworkImage(channelAvatars[index]),
+                  onBackgroundImageError: (exception, stackTrace) {},
+                  child: channelAvatars[index].isEmpty
+                      ? Text(
+                          channels[index][0],
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      : null,
                 ),
                 const SizedBox(width: 12),
                 Expanded(

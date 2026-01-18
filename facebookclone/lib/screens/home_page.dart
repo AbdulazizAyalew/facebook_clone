@@ -120,12 +120,6 @@ class HomePage extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: Colors.grey[300],
-        image: isCreateStory
-            ? null
-            : const DecorationImage(
-                image: NetworkImage('https://via.placeholder.com/110x200'),
-                fit: BoxFit.cover,
-              ),
       ),
       child: Stack(
         children: [
@@ -164,44 +158,84 @@ class HomePage extends StatelessWidget {
                 ),
               ],
             )
-          else
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CircleAvatar(
-                    radius: 20,
-                    backgroundColor: Color(0xFF1877F2),
-                    child: Text(
-                      story.userName[0],
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+          else ...[
+            // Story background image
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.network(
+                story.imageUrl,
+                width: 110,
+                height: 200,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    width: 110,
+                    height: 200,
+                    color: Colors.grey[300],
+                    child: const Icon(Icons.image, size: 40, color: Colors.grey),
+                  );
+                },
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Container(
+                    width: 110,
+                    height: 200,
+                    color: Colors.grey[300],
+                    child: const Center(
+                      child: CircularProgressIndicator(strokeWidth: 2),
                     ),
-                  ),
-                ),
-                const Spacer(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    story.userName,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13,
-                      shadows: [
-                        Shadow(
-                          blurRadius: 4,
-                          color: Colors.black,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+                  );
+                },
+              ),
             ),
+            // User avatar
+            Positioned(
+              top: 8,
+              left: 8,
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: const Color(0xFF1877F2), width: 3),
+                ),
+                child: CircleAvatar(
+                  radius: 18,
+                  backgroundImage: NetworkImage(story.userAvatarUrl),
+                  onBackgroundImageError: (exception, stackTrace) {},
+                  child: story.userAvatarUrl.isEmpty
+                      ? Text(
+                          story.userName[0],
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      : null,
+                ),
+              ),
+            ),
+            // User name
+            Positioned(
+              bottom: 8,
+              left: 8,
+              right: 8,
+              child: Text(
+                story.userName,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12,
+                  shadows: [
+                    Shadow(
+                      blurRadius: 4,
+                      color: Colors.black,
+                    ),
+                  ],
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
         ],
       ),
     );
@@ -217,14 +251,18 @@ class HomePage extends StatelessWidget {
           // Post header
           ListTile(
             leading: CircleAvatar(
-              backgroundColor: Colors.blue[700],
-              child: Text(
-                post.userName[0],
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              radius: 20,
+              backgroundImage: NetworkImage(post.userAvatarUrl),
+              onBackgroundImageError: (exception, stackTrace) {},
+              child: post.userAvatarUrl.isEmpty
+                  ? Text(
+                      post.userName[0],
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  : null,
             ),
             title: Text(
               post.userName,
@@ -260,13 +298,32 @@ class HomePage extends StatelessWidget {
             ),
 
           // Post image
-          if (post.hasImage)
+          if (post.hasImage && post.imageUrl != null)
             Container(
               width: double.infinity,
-              height: 300,
-              color: Colors.grey[300],
-              child: const Center(
-                child: Icon(Icons.image, size: 60, color: Colors.grey),
+              constraints: const BoxConstraints(maxHeight: 400),
+              child: Image.network(
+                post.imageUrl!,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    height: 200,
+                    color: Colors.grey[300],
+                    child: const Center(
+                      child: Icon(Icons.image, size: 60, color: Colors.grey),
+                    ),
+                  );
+                },
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Container(
+                    height: 200,
+                    color: Colors.grey[300],
+                    child: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                },
               ),
             ),
 

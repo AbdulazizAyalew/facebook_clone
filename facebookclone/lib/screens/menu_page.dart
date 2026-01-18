@@ -24,14 +24,19 @@ class MenuPage extends StatelessWidget {
                     CircleAvatar(
                       radius: 32,
                       backgroundColor: Colors.blue[700],
-                      child: Text(
-                        user?.displayName?.substring(0, 1).toUpperCase() ?? 'U',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      backgroundImage: user?.photoURL != null 
+                          ? NetworkImage(user!.photoURL!) 
+                          : null,
+                      child: user?.photoURL == null
+                          ? Text(
+                              user?.displayName?.substring(0, 1).toUpperCase() ?? 'U',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          : null,
                     ),
                     const SizedBox(width: 12),
                     Expanded(
@@ -159,20 +164,44 @@ class MenuPage extends StatelessWidget {
               leading: Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.grey[200],
+                  color: Colors.red[100],
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.logout, color: Colors.black87),
+                child: const Icon(Icons.logout, color: Colors.red),
               ),
               title: const Text(
                 'Log Out',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
+                  color: Colors.red,
                 ),
               ),
               onTap: () async {
-                await authService.signOut();
+                // Show confirmation dialog
+                final shouldLogout = await showDialog<bool>(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('Log Out'),
+                    content: const Text('Are you sure you want to log out?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, false),
+                        child: const Text('Cancel'),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, true),
+                        style: TextButton.styleFrom(foregroundColor: Colors.red),
+                        child: const Text('Log Out'),
+                      ),
+                    ],
+                  ),
+                );
+
+                if (shouldLogout == true) {
+                  await authService.signOut();
+                  print('🔑 User signed out successfully');
+                }
               },
             ),
           ),

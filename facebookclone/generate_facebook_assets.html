@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Facebook Assets Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f2f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        canvas {
+            border: 1px solid #ddd;
+            margin: 10px;
+        }
+        button {
+            background: #1877F2;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        button:hover {
+            background: #166fe5;
+        }
+        .preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .asset-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Facebook Assets Generator</h1>
+        <p>Generate Facebook-style app icon and splash screen assets for your Flutter app.</p>
+        
+        <div class="asset-info">
+            <h3>📱 App Icon (1024x1024)</h3>
+            <p>Square icon with Facebook blue background and white 'f' letter</p>
+        </div>
+        
+        <div class="asset-info">
+            <h3>🎨 Splash Logo (200x200)</h3>
+            <p>Rounded square logo for splash screen with transparent background</p>
+        </div>
+        
+        <div class="preview">
+            <div>
+                <h4>App Icon Preview:</h4>
+                <canvas id="iconCanvas" width="200" height="200"></canvas>
+                <br>
+                <button onclick="downloadIcon()">Download App Icon</button>
+            </div>
+            
+            <div>
+                <h4>Splash Logo Preview:</h4>
+                <canvas id="splashCanvas" width="200" height="200"></canvas>
+                <br>
+                <button onclick="downloadSplash()">Download Splash Logo</button>
+            </div>
+        </div>
+        
+        <div class="asset-info">
+            <h3>📋 Next Steps:</h3>
+            <ol>
+                <li>Download both assets using the buttons above</li>
+                <li>Save app icon as <code>assets/icons/facebook_icon.png</code></li>
+                <li>Save splash logo as <code>assets/images/facebook_splash_logo.png</code></li>
+                <li>Run: <code>flutter pub get</code></li>
+                <li>Run: <code>dart run flutter_launcher_icons</code></li>
+                <li>Run: <code>dart run flutter_native_splash:create</code></li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        // Create Facebook App Icon
+        function createAppIcon() {
+            const canvas = document.getElementById('iconCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Facebook blue background
+            ctx.fillStyle = '#1877F2';
+            ctx.fillRect(0, 0, 200, 200);
+            
+            // White 'f' letter
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 120px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('f', 100, 105);
+        }
+        
+        // Create Facebook Splash Logo
+        function createSplashLogo() {
+            const canvas = document.getElementById('splashCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas with transparent background
+            ctx.clearRect(0, 0, 200, 200);
+            
+            // Rounded rectangle background
+            const radius = 25;
+            const x = 20;
+            const y = 20;
+            const width = 160;
+            const height = 160;
+            
+            ctx.beginPath();
+            ctx.moveTo(x + radius, y);
+            ctx.lineTo(x + width - radius, y);
+            ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+            ctx.lineTo(x + width, y + height - radius);
+            ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+            ctx.lineTo(x + radius, y + height);
+            ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+            ctx.lineTo(x, y + radius);
+            ctx.quadraticCurveTo(x, y, x + radius, y);
+            ctx.closePath();
+            
+            ctx.fillStyle = '#1877F2';
+            ctx.fill();
+            
+            // White 'f' letter
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 80px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('f', 100, 105);
+        }
+        
+        // Download functions
+        function downloadIcon() {
+            const canvas = document.getElementById('iconCanvas');
+            
+            // Create high-res version
+            const highResCanvas = document.createElement('canvas');
+            highResCanvas.width = 1024;
+            highResCanvas.height = 1024;
+            const ctx = highResCanvas.getContext('2d');
+            
+            // Facebook blue background
+            ctx.fillStyle = '#1877F2';
+            ctx.fillRect(0, 0, 1024, 1024);
+            
+            // White 'f' letter
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 600px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('f', 512, 530);
+            
+            // Download
+            const link = document.createElement('a');
+            link.download = 'facebook_icon.png';
+            link.href = highResCanvas.toDataURL();
+            link.click();
+        }
+        
+        function downloadSplash() {
+            const canvas = document.getElementById('splashCanvas');
+            const link = document.createElement('a');
+            link.download = 'facebook_splash_logo.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+        
+        // Initialize
+        window.onload = function() {
+            createAppIcon();
+            createSplashLogo();
+        };
+    </script>
+</body>
+</html>

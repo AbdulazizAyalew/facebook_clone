@@ -197,6 +197,19 @@ class NotificationsPage extends StatelessWidget {
     required IconData icon,
     required Color iconColor,
   }) {
+    // Profile images for notifications
+    final Map<String, String> profileImages = {
+      'Sarah Johnson': 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=80&h=80&fit=crop&crop=face',
+      'Mike Chen': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face',
+      'Emma Williams': 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face',
+      'David Martinez': 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face',
+      'Lisa Anderson': 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop&crop=face',
+      'Tech News': 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop&crop=face',
+      'Jessica Parker': 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=80&h=80&fit=crop&crop=face',
+      'Robert Wilson': 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face',
+      'Amanda Davis': 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop&crop=face',
+    };
+
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(8),
@@ -210,15 +223,18 @@ class NotificationsPage extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 28,
-                backgroundColor: Colors.blue[700],
-                child: Text(
-                  name[0],
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                backgroundImage: NetworkImage(profileImages[name] ?? ''),
+                onBackgroundImageError: (exception, stackTrace) {},
+                child: profileImages[name] == null
+                    ? Text(
+                        name[0],
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    : null,
               ),
               Positioned(
                 bottom: 0,

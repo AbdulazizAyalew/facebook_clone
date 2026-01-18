@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "330864987458",
+    "project_id": "my-coool",
+    "storage_bucket": "my-coool.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:330864987458:android:cb135cfd09e43a406fccdb",
+        "android_client_info": {
+          "package_name": "com.example.facebookclone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "330864987458-scq6uinlbiat3i86kltp2ntrks8e8c35.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.facebookclone",
+            "certificate_hash": "8221567e629b0140bf244d67d8557710dd08c8b0"
+          }
+        },
+        {
+          "client_id": "330864987458-gb82jdna9um2uae721sb3lnqdmh6a3e7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBV3UCvkqAq95Qk7nY4dPPEmhJuOe8_qgQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "330864987458-gb82jdna9um2uae721sb3lnqdmh6a3e7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "330864987458-vdo28m8ud283lo7l802lqq4usm41ido1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.facebookclone"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
